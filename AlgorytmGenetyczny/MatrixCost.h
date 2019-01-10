@@ -14,11 +14,6 @@ struct Path{
     std::vector<int> path;
 };
 
-struct PathWithResult{
-    Path path;
-    std::vector<int> result;
-};
-
 class MatrixCost
 {
     int numberVertices;

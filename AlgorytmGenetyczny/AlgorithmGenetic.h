@@ -46,7 +46,7 @@ public:
     AlgorithmGenetic(const MatrixCost &orginalMatrix) : matrix(orginalMatrix) {};
     ~AlgorithmGenetic();
 
-    PathWithResult search(int sizePopulation, double rateCrossover, double rateMutation, int time);
+    Path search(int sizePopulation, double rateCrossover, double rateMutation, int time);
 
 };
 

@@ -1,8 +1,5 @@
 #include "AlgorithmGenetic.h"
 
-//AlgorithmGenetic::AlgorithmGenetic()
-//{
-//}
 
 AlgorithmGenetic::~AlgorithmGenetic()
 {
@@ -38,7 +35,7 @@ double AlgorithmGenetic::getRandomFromZeroToOne()
 void AlgorithmGenetic::initalizationPopulation()
 {
     population.resize(sizePopulation);
-    population[0] = generateGreedyPath(0);
+    population[0] = generateGreedyPath(rand() % numberVertices);
     for (int i = 1; i < sizePopulation; i++)
         population[i] = generateRandomPath();
 }
@@ -238,15 +235,14 @@ void AlgorithmGenetic::getTwoRandomNumberFromRange(int &first, int &second, int 
         std::swap(first, second);
 }
 
-PathWithResult AlgorithmGenetic::search(int sizePopulation, double rateCrossover, double rateMutation, int time)
+Path AlgorithmGenetic::search(int sizePopulation, double rateCrossover, double rateMutation, int time)
 {
     // time
     std::chrono::steady_clock::time_point startTime;
     std::chrono::steady_clock::time_point endTime; 
     double currentTime;
     int counterTimeTest = 0;
-    
-    std::vector<int> result;
+    int lastShowBestCost= 0;
     
     std::vector<Path> newPopulation;
     Path firstParent;
@@ -301,8 +297,11 @@ PathWithResult AlgorithmGenetic::search(int sizePopulation, double rateCrossover
         
         if (currentTime >= counterTimeTest)
         {
-            std::cout<<currentTime<<" sek. wynik: "<<bestPath.cost<<std::endl;
-            result.push_back(bestPath.cost);
+            if (lastShowBestCost != bestPath.cost)
+            {
+                std::cout<<currentTime<<" sek. wynik: "<<bestPath.cost<<std::endl;
+                lastShowBestCost = bestPath.cost;
+            }
             counterTimeTest++;
         }
         
@@ -310,5 +309,5 @@ PathWithResult AlgorithmGenetic::search(int sizePopulation, double rateCrossover
     
 
 
-    return {std::move(bestPath), std::move(result)};
+    return std::move(bestPath);
 }
